@@ -292,17 +292,64 @@
 <script>
   // נתוני מאכלים התחלתיים עם קטגוריות
   const foods = [
-    { name: "לחם לבן", carbsPer100g: 49, category: "דגנים" },
-    { name: "אורז מבושל", carbsPer100g: 28, category: "דגנים" },
-    { name: "תפוח", carbsPer100g: 14, category: "פירות" },
-    { name: "בננה", carbsPer100g: 23, category: "פירות" },
-    { name: "חומוס מבושל", carbsPer100g: 27, category: "קטניות" },
-    { name: "חלב", carbsPer100g: 5, category: "מוצרי חלב" },
-    { name: "עגבנייה", carbsPer100g: 4, category: "ירקות" },
-    { name: "מלפפון", carbsPer100g: 3.6, category: "ירקות" },
-    { name: "סוכר", carbsPer100g: 100, category: "מתוקים" },
-    { name: "עוגה שוקולד", carbsPer100g: 50, category: "מתוקים" }
-  ];
+  // דגנים
+  { name: "לחם לבן", carbsPer100g: 49, category: "דגנים" },
+  { name: "לחם מלא", carbsPer100g: 43, category: "דגנים" },
+  { name: "אורז לבן מבושל", carbsPer100g: 28, category: "דגנים" },
+  { name: "אורז מלא מבושל", carbsPer100g: 23, category: "דגנים" },
+  { name: "קוסקוס", carbsPer100g: 37, category: "דגנים" },
+  { name: "פסטה מבושלת", carbsPer100g: 25, category: "דגנים" },
+  { name: "שיבולת שועל", carbsPer100g: 66, category: "דגנים" },
+  { name: "קורנפלקס", carbsPer100g: 75, category: "דגנים" },
+
+  // פירות
+  { name: "תפוח", carbsPer100g: 14, category: "פירות" },
+  { name: "בננה", carbsPer100g: 23, category: "פירות" },
+  { name: "תות שדה", carbsPer100g: 8, category: "פירות" },
+  { name: "אבטיח", carbsPer100g: 8, category: "פירות" },
+  { name: "תפוז", carbsPer100g: 12, category: "פירות" },
+  { name: "אשכולית", carbsPer100g: 8, category: "פירות" },
+  { name: "אננס", carbsPer100g: 13, category: "פירות" },
+  { name: "קיווי", carbsPer100g: 15, category: "פירות" },
+
+  // ירקות עם פחמימות יחסית גבוהות
+  { name: "תירס", carbsPer100g: 19, category: "ירקות" },
+  { name: "בטטה", carbsPer100g: 20, category: "ירקות" },
+  { name: "גזר", carbsPer100g: 10, category: "ירקות" },
+  { name: "אפונה ירוקה", carbsPer100g: 14, category: "ירקות" },
+  { name: "סלק", carbsPer100g: 10, category: "ירקות" },
+
+  // קטניות
+  { name: "חומוס מבושל", carbsPer100g: 27, category: "קטניות" },
+  { name: "עדשים מבושלות", carbsPer100g: 20, category: "קטניות" },
+  { name: "שעועית שחורה מבושלת", carbsPer100g: 23, category: "קטניות" },
+  { name: "פולי סויה מבושלים", carbsPer100g: 15, category: "קטניות" },
+
+  // מוצרי חלב
+  { name: "חלב 3%", carbsPer100g: 5, category: "מוצרי חלב" },
+  { name: "יוגורט טבעי", carbsPer100g: 4, category: "מוצרי חלב" },
+  { name: "גבינת קוטג'", carbsPer100g: 3, category: "מוצרי חלב" },
+
+  // מתוקים וסוכרים
+  { name: "סוכר לבן", carbsPer100g: 100, category: "מתוקים" },
+  { name: "דבש", carbsPer100g: 82, category: "מתוקים" },
+  { name: "שוקולד חלב", carbsPer100g: 60, category: "מתוקים" },
+  { name: "עוגה שוקולד", carbsPer100g: 50, category: "מתוקים" },
+  { name: "גלידה וניל", carbsPer100g: 24, category: "מתוקים" },
+
+  // משקאות עם פחמימות
+  { name: "משקה קולה רגיל", carbsPer100g: 10.6, category: "משקאות" },
+  { name: "מיץ תפוזים טבעי", carbsPer100g: 8.4, category: "משקאות" },
+  { name: "מיץ תפוחים", carbsPer100g: 11, category: "משקאות" },
+  { name: "בירה", carbsPer100g: 3.6, category: "משקאות" },
+  { name: "יין אדום", carbsPer100g: 2.6, category: "משקאות" },
+  { name: "משקה אנרגיה", carbsPer100g: 11, category: "משקאות" },
+  { name: "חלב שקדים מתוק", carbsPer100g: 7, category: "משקאות" },
+
+  // אחר
+  { name: "טחינה גולמית", carbsPer100g: 10, category: "אחר" },
+  { name: "חמאת בוטנים", carbsPer100g: 20, category: "אחר" },
+];
 
   // שמירת המצב: מאכלים שהמשתמש הוסיף, תצרוכת יומית, משתמש
   let customFoods = [];
@@ -673,3 +720,4 @@
 </script>
 </body>
 </html>
+
