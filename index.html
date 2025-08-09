@@ -6,6 +6,135 @@
 <title>מעקב פחמימות — אפליקציה מלאה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
+/* סטייל כללי קיימים לדוגמה */
+body {
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.section-title {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* דוגמא ל-food-item */
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.05);
+}
+
+/* דוגמא ל-selected-item */
+.selected-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0f7f7;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  padding: 8px 12px;
+}
+
+/* כפתורים */
+button.btn {
+  background-color: #007a7a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #005f5f;
+}
+
+button.cat-btn {
+  background: #ddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  transition: background-color 0.3s ease;
+}
+
+button.cat-btn:hover {
+  background-color: #bbb;
+}
+
+/* Inputs, select, textarea */
+input, select, textarea {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+  width: auto;
+  max-width: 200px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #007a7a;
+}
+
+/* מובייל - פריסה אנכית, רוחב מלא */
+@media (max-width: 600px) {
+  /* ערימת אלמנטים */
+  .food-item,
+  .selected-item,
+  .buttons-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+
+  /* אלמנטים בפנים */
+  .food-left, .food-right,
+  .selected-item > div,
+  button, input, select, textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* כפתורי serving */
+  .cat-btn {
+    width: 100% !important;
+    margin-bottom: 8px;
+  }
+
+  /* ריווח בין הפריטים */
+  .food-item, .selected-item {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  /* כפתורים עיקריים */
+  button.btn {
+    width: 100% !important;
+    padding: 14px 0 !important;
+    font-size: 1.1rem !important;
+  }
+
+  /* שדות קלט גדולים ונוחים */
+  input, select, textarea {
+    font-size: 1.1rem !important;
+    padding: 12px !important;
+    max-width: 100% !important;
+  }
+}
 
 :root{
   --bg:#f1f7f7; --card:#fff; --accent:#007a7a; --accent-2:#009999; --accent-dark:#005050;
@@ -464,6 +593,7 @@ function initTracker(){
     serveBtn.addEventListener('click', ()=>{
       qty.value = food.servingGrams;
       qty.dispatchEvent(new Event('input'));
+
 serveBtn.addEventListener('click', () => {
   const currentQty = parseFloat(qty.value);
   if (isNaN(currentQty) || currentQty <= 0) {
@@ -707,11 +837,6 @@ function initStats(){
   renderStatsChart();
   initExportImport();
 }
-
-
-/* ===========================
-   סיוע קטן — הצגה ראשונית
-   ============================ */
 </script>
 </body>
 </html>
