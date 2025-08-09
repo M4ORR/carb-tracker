@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>מעקב פחמימות - אפליקציה מלאה</title>
+<title>מעקב פחמימות - אפליקציה משודרגת</title>
 <style>
+  /* ... כל הסגנונות כפי ששלחתי קודם ... */
   @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-  /* בסיס */
   * {
     box-sizing: border-box;
   }
@@ -39,15 +39,18 @@
     display: flex;
     flex-direction: row;
     overflow: hidden;
+    flex-wrap: wrap;
   }
   nav#sidebar {
     width: 260px;
+    max-width: 100%;
     background: #e1f0f0;
     padding: 16px 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     border-right: 2px solid #007a7a;
+    flex-shrink: 0;
   }
   nav#sidebar h2 {
     margin: 0 0 8px 0;
@@ -72,9 +75,10 @@
     color: white;
   }
   section#content {
-    flex: 1;
+    flex: 1 1 0;
     padding: 24px 32px;
     overflow-y: auto;
+    min-width: 0;
   }
   h2.section-title {
     margin-top: 0;
@@ -83,7 +87,6 @@
     border-bottom: 2px solid #007a7a;
     padding-bottom: 6px;
   }
-  /* רשימת מאכלים וקטגוריות */
   #search-input {
     width: 100%;
     padding: 10px 12px;
@@ -141,7 +144,6 @@
     box-shadow: 0 0 6px #007a7a;
   }
 
-  /* תצרוכת נוכחית */
   #tracker-container {
     margin-top: 24px;
   }
@@ -176,9 +178,9 @@
     color: #004040;
     text-align: center;
   }
-  #reset-button {
+  #save-day-button, #reset-button {
     margin-top: 12px;
-    width: 100%;
+    width: 48%;
     padding: 12px 0;
     background: #007a7a;
     border: none;
@@ -189,10 +191,14 @@
     box-shadow: 0 6px 15px rgba(0,122,122,0.4);
     transition: background-color 0.3s;
   }
-  #reset-button:hover {
+  #save-day-button:hover, #reset-button:hover {
     background: #005050;
   }
-  /* הוספת מאכל */
+  #buttons-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
   #add-food-form {
     margin-top: 32px;
     border-top: 2px solid #007a7a;
@@ -204,7 +210,8 @@
     font-weight: 600;
     color: #007a7a;
   }
-  #add-food-form input {
+  #add-food-form input,
+  #add-food-form select {
     width: 100%;
     padding: 8px 10px;
     font-size: 16px;
@@ -213,7 +220,8 @@
     border: 1.8px solid #ccc;
     transition: border-color 0.3s;
   }
-  #add-food-form input:focus {
+  #add-food-form input:focus,
+  #add-food-form select:focus {
     border-color: #007a7a;
     outline: none;
     box-shadow: 0 0 6px #007a7a;
@@ -234,7 +242,6 @@
     background: #006666;
   }
 
-  /* גרפים */
   #chart-container {
     margin-top: 40px;
   }
@@ -245,15 +252,54 @@
     box-shadow: 0 4px 14px rgba(0,0,0,0.1);
   }
 
-  /* נגישות */
-  button:focus, input:focus {
+  /* יצוא וייבוא */
+  #export-import-container {
+    margin-top: 30px;
+    border: 2px solid #007a7a;
+    border-radius: 16px;
+    padding: 16px;
+    background: #e9f7f7;
+  }
+  #export-import-container textarea {
+    width: 100%;
+    height: 120px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid #007a7a;
+    padding: 8px;
+    resize: vertical;
+  }
+  #export-import-container button {
+    margin-top: 8px;
+    width: 48%;
+    padding: 12px 0;
+    background: #007a7a;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,122,122,0.5);
+    transition: background-color 0.3s;
+  }
+  #export-import-container button:hover {
+    background: #005050;
+  }
+  #export-import-container .buttons-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button:focus, input:focus, select:focus, textarea:focus {
     outline-offset: 3px;
   }
 
-  /* רספונסיביות */
   @media (max-width: 900px) {
     main {
       flex-direction: column;
+      margin: 10px;
+      border-radius: 12px;
     }
     nav#sidebar {
       width: 100%;
@@ -271,12 +317,27 @@
     }
     section#content {
       padding: 16px 20px;
+      min-height: 300px;
+    }
+    #save-day-button, #reset-button {
+      width: 100%;
+      margin-top: 8px;
+    }
+    #buttons-row {
+      flex-direction: column;
+    }
+    #export-import-container .buttons-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+    #export-import-container button {
+      width: 100%;
     }
   }
 </style>
 </head>
 <body>
-<header>מעקב פחמימות - אפליקציה מלאה</header>
+<header>מעקב פחמימות - אפליקציה משודרגת</header>
 <main>
   <nav id="sidebar" role="navigation" aria-label="תפריט ניווט">
     <button class="active" data-section="tracker" aria-current="page">מעקב</button>
@@ -290,7 +351,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // נתוני מאכלים התחלתיים עם קטגוריות
+  // מאכלים התחלתיים
   const foods = [
     { name: "לחם לבן", carbsPer100g: 49, category: "דגנים" },
     { name: "אורז מבושל", carbsPer100g: 28, category: "דגנים" },
@@ -304,25 +365,99 @@
     { name: "עוגה שוקולד", carbsPer100g: 50, category: "מתוקים" }
   ];
 
-  // שמירת המצב: מאכלים שהמשתמש הוסיף, תצרוכת יומית, משתמש
   let customFoods = [];
-  let selectedFoods = {}; // { "לחם לבן": { qty, carbs, category } }
+  // צריכה יומית לפי תאריך במבנה: { 'YYYY-MM-DD': { 'לחם לבן': {qty, carbs, category}, ... }, ... }
+  let dailyConsumption = {};
   let currentSection = 'tracker';
 
-  // HTML templates
+  // עזרות תאריך
+  function formatDate(date = new Date()) {
+    return date.toISOString().slice(0,10);
+  }
+  function parseDate(str) {
+    return new Date(str);
+  }
+  function getLastNDates(n) {
+    const dates = [];
+    for(let i = n-1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      dates.push(formatDate(d));
+    }
+    return dates;
+  }
+
+  // טעינה ושמירה מ־localStorage
+  function loadState() {
+    const custom = localStorage.getItem('carbTrackerCustomFoods');
+    customFoods = custom ? JSON.parse(custom) : [];
+    const daily = localStorage.getItem('carbTrackerDailyConsumption');
+    dailyConsumption = daily ? JSON.parse(daily) : {};
+  }
+  function saveState() {
+    localStorage.setItem('carbTrackerCustomFoods', JSON.stringify(customFoods));
+    localStorage.setItem('carbTrackerDailyConsumption', JSON.stringify(dailyConsumption));
+  }
+
+  function getAllFoods() {
+    return [...foods, ...customFoods];
+  }
+
+  // --- ניווט ---
+
+  const content = document.getElementById('content');
+  const sidebarButtons = document.querySelectorAll('#sidebar button');
+
+  function setSection(section) {
+    currentSection = section;
+    sidebarButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.section === section);
+      if (btn.dataset.section === section) {
+        btn.setAttribute('aria-current', 'page');
+      } else {
+        btn.removeAttribute('aria-current');
+      }
+    });
+    if(section === 'tracker') {
+      content.innerHTML = trackerTemplate();
+      initTracker();
+    } else if(section === 'addFood') {
+      content.innerHTML = addFoodTemplate();
+      initAddFood();
+    } else if(section === 'stats') {
+      content.innerHTML = statsTemplate();
+      initStats();
+    }
+  }
+  sidebarButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(btn.dataset.section !== currentSection) {
+        setSection(btn.dataset.section);
+      }
+    });
+  });
+
+  // --- תבניות HTML ---
+
   function trackerTemplate() {
+    const today = formatDate();
     return `
       <h2 class="section-title">מעקב תצרוכת פחמימות</h2>
+      <p>תאריך: <input type="date" id="date-picker" value="${today}" max="${today}" aria-label="בחירת תאריך לצפייה ועריכה"></p>
       <input id="search-input" type="search" placeholder="חפש מאכל..." aria-label="חיפוש מאכלים" autocomplete="off" />
       <div id="food-list" role="list" tabindex="0" aria-label="רשימת מאכלים"></div>
       <div id="tracker-container" aria-live="polite" aria-atomic="true">
         <h3>תצרוכת נוכחית</h3>
         <div id="selected-foods" role="list" tabindex="0" aria-label="מאכלים שנבחרו"></div>
         <div id="total-carb">סה"כ פחמימות: 0 גרם</div>
-        <button id="reset-button" aria-label="איפוס כל הבחירות">אפס הכל</button>
+        <div id="buttons-row">
+          <button id="save-day-button" aria-label="שמור תצרוכת יומית">שמור יום</button>
+          <button id="reset-button" aria-label="איפוס התצרוכת ליום זה">אפס יום</button>
+        </div>
       </div>
     `;
   }
+
   function addFoodTemplate() {
     return `
       <h2 class="section-title">הוסף מאכל מותאם אישית</h2>
@@ -346,66 +481,48 @@
       </form>
     `;
   }
+
   function statsTemplate() {
     return `
-      <h2 class="section-title">סטטיסטיקות יומיות</h2>
-      <canvas id="carbChart" aria-label="גרף צריכת פחמימות יומית" role="img"></canvas>
-      <p style="margin-top: 12px; color: #555;">הגרף מציג את סך הפחמימות שנצרכו בכל יום ב-7 הימים האחרונים.</p>
+      <h2 class="section-title">סטטיסטיקות גרף פחמימות אחרונות</h2>
+      <div id="chart-container">
+        <canvas id="carbChart" aria-label="גרף צריכת פחמימות יומית" role="img"></canvas>
+      </div>
+      <div id="export-import-container" aria-label="יצוא וייבוא נתוני האפליקציה">
+        <h3>יצוא וייבוא נתונים</h3>
+        <textarea id="export-import-textarea" aria-label="אזור טקסט ליצוא וייבוא נתונים" placeholder="כאן יוצג/יוכנס הנתונים..."></textarea>
+        <div class="buttons-row">
+          <button id="export-data-btn" aria-label="ייצוא הנתונים">ייצוא נתונים</button>
+          <button id="import-data-btn" aria-label="ייבוא הנתונים">ייבוא נתונים</button>
+        </div>
+      </div>
     `;
   }
 
-  // DOM references
-  const content = document.getElementById('content');
-  const sidebarButtons = document.querySelectorAll('#sidebar button');
-
-  // מצבי אחסון ב־LocalStorage
-  function loadState() {
-    const sel = localStorage.getItem('carbTrackerSelectedFoods');
-    selectedFoods = sel ? JSON.parse(sel) : {};
-    const custom = localStorage.getItem('carbTrackerCustomFoods');
-    customFoods = custom ? JSON.parse(custom) : [];
-  }
-  function saveState() {
-    localStorage.setItem('carbTrackerSelectedFoods', JSON.stringify(selectedFoods));
-    localStorage.setItem('carbTrackerCustomFoods', JSON.stringify(customFoods));
-  }
-
-  // איחוד מאכלים - תחילת מאכלים + מותאמים אישית
-  function getAllFoods() {
-    return [...foods, ...customFoods];
-  }
-
-  // ניווט בין חלקים
-  function setSection(section) {
-    currentSection = section;
-    sidebarButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.section === section);
-      if (btn.dataset.section === section) {
-        btn.setAttribute('aria-current', 'page');
-      } else {
-        btn.removeAttribute('aria-current');
-      }
-    });
-    if(section === 'tracker') {
-      content.innerHTML = trackerTemplate();
-      initTracker();
-    } else if(section === 'addFood') {
-      content.innerHTML = addFoodTemplate();
-      initAddFood();
-    } else if(section === 'stats') {
-      content.innerHTML = statsTemplate();
-      initStats();
-    }
-  }
-
-  // --- מעקב תצרוכת ---
+  // --- מעקב ---
 
   function initTracker() {
-    const foodListEl = document.getElementById('food-list');
+    const datePicker = document.getElementById('date-picker');
     const searchInput = document.getElementById('search-input');
+    const foodListEl = document.getElementById('food-list');
     const selectedFoodsEl = document.getElementById('selected-foods');
     const totalCarbEl = document.getElementById('total-carb');
+    const saveDayButton = document.getElementById('save-day-button');
     const resetButton = document.getElementById('reset-button');
+
+    let selectedFoods = {};
+
+    function loadDayData(date) {
+      selectedFoods = dailyConsumption[date] ? {...dailyConsumption[date]} : {};
+    }
+    function saveDayData(date) {
+      if(Object.keys(selectedFoods).length === 0) {
+        delete dailyConsumption[date];
+      } else {
+        dailyConsumption[date] = {...selectedFoods};
+      }
+      saveState();
+    }
 
     function createFoodItem(food) {
       const div = document.createElement('div');
@@ -418,37 +535,36 @@
 
       const carbSpan = document.createElement('span');
       carbSpan.className = 'food-carb';
-      carbSpan.textContent = `${food.carbsPer100g} גרם פחמימות ל-100 גרם`;
+      carbSpan.textContent = `${food.carbsPer100g.toFixed(1)} גרם ל-100 גרם`;
 
       const qtyDiv = document.createElement('div');
       qtyDiv.className = 'food-qty';
 
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = '0';
-      input.step = 'any';
-      input.placeholder = 'גרם';
-      input.value = selectedFoods[food.name]?.qty || '';
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = 0;
+      qtyInput.step = 1;
+      qtyInput.value = selectedFoods[food.name]?.qty ?? 0;
+      qtyInput.setAttribute('aria-label', `הזן גרמים של ${food.name}`);
 
-      input.addEventListener('input', () => {
-        let val = parseFloat(input.value);
+      qtyInput.addEventListener('input', () => {
+        const val = parseInt(qtyInput.value);
         if (isNaN(val) || val < 0) {
-          val = 0;
-        }
-        if (val === 0) {
+          qtyInput.value = 0;
+          delete selectedFoods[food.name];
+        } else if (val === 0) {
           delete selectedFoods[food.name];
         } else {
           selectedFoods[food.name] = {
             qty: val,
-            carbs: (food.carbsPer100g * val) / 100,
+            carbs: (val * food.carbsPer100g / 100),
             category: food.category
           };
         }
-        saveState();
         renderSelectedFoods();
       });
 
-      qtyDiv.appendChild(input);
+      qtyDiv.appendChild(qtyInput);
 
       div.appendChild(nameSpan);
       div.appendChild(carbSpan);
@@ -459,12 +575,18 @@
 
     function renderFoodList(filter = '') {
       foodListEl.innerHTML = '';
-      const lowerFilter = filter.trim().toLowerCase();
-      getAllFoods()
-        .filter(f => f.name.toLowerCase().includes(lowerFilter))
-        .forEach(food => {
-          foodListEl.appendChild(createFoodItem(food));
-        });
+      const allFoods = getAllFoods();
+      const filtered = allFoods.filter(f => f.name.includes(filter) || f.category.includes(filter));
+      if(filtered.length === 0) {
+        const noRes = document.createElement('p');
+        noRes.textContent = 'לא נמצאו מאכלים';
+        noRes.style.color = '#777';
+        foodListEl.appendChild(noRes);
+        return;
+      }
+      filtered.forEach(food => {
+        foodListEl.appendChild(createFoodItem(food));
+      });
     }
 
     function renderSelectedFoods() {
@@ -477,7 +599,6 @@
       }
       let total = 0;
       entries.forEach(([name, data]) => {
-        total += data.carbs;
         const div = document.createElement('div');
         div.className = 'selected-item';
         div.setAttribute('role', 'listitem');
@@ -486,34 +607,57 @@
         nameSpan.className = 'selected-name';
         nameSpan.textContent = name;
 
+        const qtySpan = document.createElement('span');
+        qtySpan.className = 'selected-qty';
+        qtySpan.textContent = `${data.qty} גרם`;
+
         const carbSpan = document.createElement('span');
         carbSpan.className = 'selected-carb';
-        carbSpan.textContent = `${data.carbs.toFixed(1)} גרם`;
+        carbSpan.textContent = `${data.carbs.toFixed(1)} גרם פחמימות`;
 
         div.appendChild(nameSpan);
+        div.appendChild(qtySpan);
         div.appendChild(carbSpan);
         selectedFoodsEl.appendChild(div);
+
+        total += data.carbs;
       });
       totalCarbEl.textContent = `סה"כ פחמימות: ${total.toFixed(1)} גרם`;
     }
 
     resetButton.addEventListener('click', () => {
-      selectedFoods = {};
-      saveState();
-      renderFoodList(searchInput.value);
-      renderSelectedFoods();
+      if(confirm('האם למחוק את כל הבחירות ליום זה?')) {
+        selectedFoods = {};
+        renderSelectedFoods();
+        renderFoodList(searchInput.value);
+        saveDayData(datePicker.value);
+      }
+    });
+
+    saveDayButton.addEventListener('click', () => {
+      saveDayData(datePicker.value);
+      alert('תצרוכת היום נשמרה בהצלחה!');
+      renderStatsChart();
     });
 
     searchInput.addEventListener('input', () => {
       renderFoodList(searchInput.value);
     });
 
-    // אתחול
-    renderFoodList();
+    datePicker.addEventListener('change', () => {
+      loadDayData(datePicker.value);
+      renderSelectedFoods();
+      renderFoodList(searchInput.value);
+    });
+
+    // אתחול התחלי
+    loadDayData(datePicker.value);
     renderSelectedFoods();
+    renderFoodList();
   }
 
-  // --- הוספת מאכל מותאם אישית ---
+  // --- הוספת מאכל ---
+
   function initAddFood() {
     const form = document.getElementById('add-food-form');
     form.addEventListener('submit', e => {
@@ -521,158 +665,152 @@
       const nameInput = form.querySelector('#food-name');
       const carbsInput = form.querySelector('#food-carbs');
       const categorySelect = form.querySelector('#food-category');
+
       const name = nameInput.value.trim();
       const carbs = parseFloat(carbsInput.value);
       const category = categorySelect.value;
 
       if (!name || isNaN(carbs) || carbs < 0 || !category) {
-        alert('אנא מלא את כל השדות כראוי.');
+        alert('אנא מלא את כל השדות נכון.');
+        return;
+      }
+      // בודק אם המאכל כבר קיים (בלי תלות באותיות)
+      const exists = getAllFoods().some(f => f.name.toLowerCase() === name.toLowerCase());
+      if(exists) {
+        alert('מאכל עם שם זה כבר קיים.');
         return;
       }
 
-      // בדיקה אם המאכל כבר קיים (במקור או מותאם אישית)
-      const allFoods = getAllFoods();
-      const exists = allFoods.some(f => f.name.toLowerCase() === name.toLowerCase());
-      if (exists) {
-        alert('המאכל כבר קיים ברשימה.');
-        return;
-      }
-
-      customFoods.push({ name, carbsPer100g: carbs, category });
+      const newFood = { name, carbsPer100g: carbs, category };
+      customFoods.push(newFood);
       saveState();
-      alert(`המאכל "${name}" נוסף בהצלחה!`);
 
-      // נקה טופס
-      form.reset();
+      alert('המאכל נוסף בהצלחה!');
+
+      nameInput.value = '';
+      carbsInput.value = '';
+      categorySelect.value = '';
+
+      setSection('tracker');
     });
   }
 
   // --- סטטיסטיקות וגרפים ---
+
   let chartInstance = null;
-  function initStats() {
+
+  function renderStatsChart() {
     const ctx = document.getElementById('carbChart').getContext('2d');
+    const dates = getLastNDates(7);
+    const carbsPerDay = dates.map(date => {
+      if(!dailyConsumption[date]) return 0;
+      return Object.values(dailyConsumption[date])
+        .reduce((acc, item) => acc + item.carbs, 0);
+    });
+
     if(chartInstance) {
-      chartInstance.destroy();
+      chartInstance.data.labels = dates.map(d => {
+        const dt = new Date(d);
+        return dt.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+      });
+      chartInstance.data.datasets[0].data = carbsPerDay;
+      chartInstance.update();
+      return;
     }
-
-    // נקבל נתונים אחרונים 7 ימים
-    // לצורך דוגמה, נשתמש באחסון זמני ב-LocalStorage
-    // מבנה: {'carbTrackerHistory': JSON.stringify({ '2025-08-01': 45, ... })}
-    const historyRaw = localStorage.getItem('carbTrackerHistory');
-    const history = historyRaw ? JSON.parse(historyRaw) : {};
-
-    // בנה מערך של 7 ימים אחרונים בתאריכים בפורמט YYYY-MM-DD
-    const dates = [];
-    for(let i=6; i>=0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      dates.push(d.toISOString().slice(0,10));
-    }
-    // אסוף ערכי פחמימות לפי תאריך
-    const data = dates.map(date => history[date] || 0);
 
     chartInstance = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
-        labels: dates,
+        labels: dates.map(d => {
+          const dt = new Date(d);
+          return dt.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+        }),
         datasets: [{
-          label: 'פחמימות ליום (גרם)',
-          data,
-          borderColor: '#007a7a',
-          backgroundColor: 'rgba(0, 122, 122, 0.3)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 5,
-          pointHoverRadius: 7,
+          label: 'גרם פחמימות ביום',
+          data: carbsPerDay,
+          backgroundColor: '#007a7a',
+          borderRadius: 6,
+          barPercentage: 0.6,
         }]
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
         scales: {
+          x: {
+            ticks: { color: '#004040', font: { size: 14 } },
+            grid: { display: false }
+          },
           y: {
             beginAtZero: true,
-            ticks: {
-              stepSize: 10
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                size: 16,
-                family: 'Rubik'
-              }
-            }
+            ticks: { color: '#004040', font: { size: 14 } },
+            grid: { color: '#e0e0e0' }
           }
         }
       }
     });
   }
 
-  // --- שמירת היסטוריית צריכה יומית (פיצ׳ר מתקדם) ---
-  // בזמן טעינת tracker, ניתן להוסיף כפתור 'שמור היום' כדי להוסיף את סך הפחמימות להיסטוריה
-  // להלן פונקציה שניתן להוסיף למעקב:
-
-  function saveTodayToHistory() {
-    const totalCarbs = Object.values(selectedFoods).reduce((acc, f) => acc + f.carbs, 0);
-    if(totalCarbs === 0) return;
-
-    const today = new Date().toISOString().slice(0,10);
-    const historyRaw = localStorage.getItem('carbTrackerHistory');
-    const history = historyRaw ? JSON.parse(historyRaw) : {};
-
-    history[today] = totalCarbs;
-    localStorage.setItem('carbTrackerHistory', JSON.stringify(history));
+  function initStats() {
+    renderStatsChart();
+    initExportImport();
   }
 
-  // נוכל להוסיף כפתור למעקב לשמירת היום:
-  // אחרי renderSelectedFoods() ב-initTracker(), נוסיף את הכפתור ונחבר אותו:
+  // --- יצוא וייבוא נתונים ---
 
-  function addSaveTodayButton() {
-    const trackerContainer = document.getElementById('tracker-container');
-    if(document.getElementById('save-today-btn')) return;
-    const btn = document.createElement('button');
-    btn.id = 'save-today-btn';
-    btn.textContent = 'שמור את צריכת היום';
-    btn.style.marginTop = '12px';
-    btn.style.width = '100%';
-    btn.style.padding = '12px 0';
-    btn.style.background = '#005050';
-    btn.style.color = 'white';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '16px';
-    btn.style.fontSize = '1.2rem';
-    btn.style.cursor = 'pointer';
-    btn.addEventListener('click', () => {
-      saveTodayToHistory();
-      alert('צריכת היום נשמרה בהצלחה!');
+  function initExportImport() {
+    const exportBtn = document.getElementById('export-data-btn');
+    const importBtn = document.getElementById('import-data-btn');
+    const textarea = document.getElementById('export-import-textarea');
+
+    exportBtn.addEventListener('click', () => {
+      const dataToExport = {
+        customFoods,
+        dailyConsumption,
+      };
+      textarea.value = JSON.stringify(dataToExport, null, 2);
+      textarea.focus();
+      textarea.select();
+      alert('נתוני האפליקציה יופיעו בתיבה למעלה. ניתן להעתיק ולשמור אותם.');
     });
-    trackerContainer.appendChild(btn);
-  }
 
-  // --- התחלת המערכת ---
-  // התנהגות כפתורי הניווט
-  sidebarButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      setSection(btn.dataset.section);
+    importBtn.addEventListener('click', () => {
+      const text = textarea.value.trim();
+      if(!text) {
+        alert('אנא הדבק כאן נתוני JSON חוקיים לייבוא.');
+        return;
+      }
+      try {
+        const imported = JSON.parse(text);
+        if(typeof imported !== 'object' || !imported.customFoods || !imported.dailyConsumption) {
+          alert('קובץ ה-JSON אינו מתאים לפורמט הנדרש.');
+          return;
+        }
+        // שומר את הנתונים ומעדכן המצב
+        customFoods = imported.customFoods;
+        dailyConsumption = imported.dailyConsumption;
+        saveState();
+        alert('הנתונים יובאו בהצלחה!');
+        // במידה ואנחנו בטרקר - רענון התצוגה לפי תאריך נוכחי
+        if(currentSection === 'tracker') {
+          setSection('tracker');
+        } else if(currentSection === 'stats') {
+          setSection('stats');
+        }
+      } catch(e) {
+        alert('שגיאה בפענוח JSON. אנא בדוק את הנתונים ונסה שוב.');
+      }
     });
-  });
-
-  // טעינת מצב ושלב ראשוני
-  function init() {
-    loadState();
-    setSection('tracker');
   }
 
-  // הרחבת initTracker להוספת כפתור שמירה
-  const originalInitTracker = initTracker;
-  initTracker = function() {
-    originalInitTracker();
-    addSaveTodayButton();
-  }
+  // --- אתחול ראשוני ---
 
-  init();
+  loadState();
+  setSection(currentSection);
+
 </script>
 </body>
 </html>
