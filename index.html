@@ -6,64 +6,64 @@
 <title>מעקב פחמימות — אפליקציה מלאה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-html, body {
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-
-#contentEl {
-  width: 95%;
-  max-width: 600px;
-  margin: 10px auto;
-  box-sizing: border-box;
-}
-
-#chart-container {
-  width: 100%;
-  height: 260px; /* או גובה מותאם לפי הצורך */
-  max-width: 100%;
-  position: relative;
-}
-
-#carbChart {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* שדות מספריים עם כיוון LTR */
-input[type=number], textarea {
-  direction: ltr;
-}
-
-/* כפתורים ורכיבים אחרים - להתאים רוחב ונראות */
-button, input, textarea {
-  font-size: 1rem;
-  padding: 8px 12px;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* תקן גלילה אופקית */
+/* עיצוב כללי (למחשבים וגדולים) - נשאר כמו שאתה רוצה */
 body {
-  overflow-x: hidden;
+  font-size: 16px;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-/* מדיה קוורי למסכים רחבים יותר */
-@media (min-width: 600px) {
-  html, body {
-    font-size: 16px;
+/* ... שאר העיצוב הקיים שלך ... */
+
+/* Media Query למובייל */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px; /* מעט קטן יותר לקריאות טובה יותר */
+    padding: 10px;
   }
-  #contentEl {
-    max-width: 600px;
+
+  #food-list, #selected-foods {
+    max-height: 300px; /* גבול גובה לרשימות, עם גלילה */
+    overflow-y: auto;
+  }
+
+  .food-item {
+    flex-direction: column;  /* סדר אנכי של הפריטים */
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .food-left, .food-right {
+    width: 100%;
+  }
+
+  .food-right {
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  #carbChart {
+    width: 100% !important;
+    height: 250px !important; /* גובה מותאם למובייל */
+  }
+
+  textarea#export-import-textarea {
+    font-size: 0.85rem;
+  }
+
+  button.btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .selected-item {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
   }
 }
 
